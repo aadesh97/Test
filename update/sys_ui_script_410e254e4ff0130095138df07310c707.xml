@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <name>x_189384_deploynow.depNow_getRunBook</name>
+        <script><![CDATA[var x_189384_deploynow = x_189384_deploynow || {};
+
+x_189384_deploynow.depNow_getRunBook = (function() {
+	"use strict";
+
+	/* set your private variables and functions here. For example: 
+	var privateVar = 0; 
+	function private_function() {
+		return ++privateVar;
+	}
+*/
+
+	/* Share variables between multiple UI scripts by adding them to your scope object. For example: 
+	x_189384_deploynow.sharedVar = 0; 
+
+ Then access them in your scripts the same way. For example: 
+	function get_shared() {
+		return x_189384_deploynow.sharedVar;
+	}
+*/
+
+	return {
+
+		/* set your public API here. For example:
+		incrementAndReturnPrivateVar: function() {
+			return private_function();
+		},
+*/
+		type:  "depNow_getRunBook"
+	};
+})();
+
+/*
+ DeployNow v1.9.2
+ (c) 2018 Shashi Ranjan, @+91-9852362796
+*/
+
+
+function getUpdateSet(){
+	var nameContain = $j("#nameContain").val();
+	var beforedate = $j("#dateRangePicker").val();
+	var afterdate= $j("#dateRangePicker1").val();
+	var optionSearch = $j("#selectOption").val();
+	var remoteHost = $j("#selectRemote").val();
+	var queryString = '';
+
+	if(optionSearch == "name_contain"){
+		if(remoteHost == ''){
+			$j('#modalAlert').show();
+			$j("#modalTitle").text("Warning !!");
+			$j("#modalText").text("Please Select Remote Instance");
+			return false ;
+		}
+		if(nameContain == ''){
+			$j('#modalAlert').show();
+			$j("#modalTitle").text("Warning !!");
+			$j("#modalText").text("Please enter name to find update set.");
+			return false ;
+		} else {
+			document.getElementById("deploy").disabled = true;
+			if(nameContain.split('\n').length >= 50){
+				$j('#modalAlert').show();
+				$j("#modalTitle").text("Warning !!");
+				$j("#modalText").text("Hi There ! \n Sorry,We can not process more than 50 record.\n Plaese split your records.");
+				return false ;
+			}
+			var nameIsOneOf = nameContain.replace(/\n/g,"_._");
+			nameIsOneOf = nameIsOneOf.split(' ').join('__..');
+			queryString =optionSearch+"___"+afterdate+"___"+beforedate+"___"+nameIsOneOf ;
+			getUSFromInstance(queryString,remoteHost);
+		}
+	} else if(optionSearch == "date_range"){
+		if(remoteHost == ''){
+			$j('#modalAlert').show();
+			$j("#modalTitle").text("Warning !!");
+			$j("#modalText").text("Please Select Remote Instance");
+			return false ;
+		}
+		if(beforedate == '' || afterdate == ''){
+			$j('#modalAlert').show();
+			$j("#modalTitle").text("Warning !!");
+			$j("#modalText").text("Please select date range.");
+			return false ;
+		} else {
+			document.getElementById("deploy").disabled = true;
+			queryString = queryString =optionSearch+"___"+afterdate+"___"+beforedate+"___"+nameContain ;
+			getUSFromInstance(queryString,remoteHost);
+		}
+
+	} else if(optionSearch == "excel_upload"){
+		checkUpdateSetFromDatabase();
+	}
+}
+
+
+function getUSFromInstance(queryString,remoteHost) {
+	$j("#runbook").hide();
+	$j("#runbookClicked").show();
+
+	var obj = new GlideAjax('depNow_getUSDetails');
+	obj.addParam('sysparm_name','getRunbookDetails');
+	obj.addParam('sysparm_query',queryString);
+	obj.addParam('sysparm_sourceURI',remoteHost);
+	obj.getXML(getRunbook);
+	function getRunbook(response) {
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		try{
+			getRunBook.myFunc(answer);
+			$j("#runbook").show();
+			$j("#runbookClicked").hide();
+			$j("#usCount").text(JSON.parse(answer).result.length);
+		} catch(e){
+			$j('#modalAlert').show();
+			$j("#modalTitle").text("Error !!");
+			$j("#modalText").text(JSON.stringify(answer));
+		}
+	}
+}
+
+
+function checkUpdateSetFromDatabase(){
+	alert("coming soon");
+	return false;
+	var obj = new GlideAjax('depNow_getUSDetails');
+	obj.addParam('sysparm_sourceurl',$j("#selectRemote option:selected").text());
+	obj.addParam('sysparm_name','getRunbookDetails');
+	obj.addParam('sysparm_query',queryString);
+	obj.getXML(getRunbook);
+	function getRunbook(response) {
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		answer = JSON.parse(answer);
+		getRunBook.myFunc(updateSet);
+		$j("#target").text(window.location.origin) ;
+		$j("#source").text($j("#selectRemote option:selected").text()) ;
+
+	}
+}
+
+function checkUpdateSet(){
+
+}
+
+]]></script>
+        <script_name>depNow_getRunBook</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-13 18:21:00</sys_created_on>
+        <sys_id>410e254e4ff0130095138df07310c707</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_189384_deploynow.depNow_getRunBook</sys_name>
+        <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
+        <sys_update_name>sys_ui_script_410e254e4ff0130095138df07310c707</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-13 18:21:00</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>depNow_Style</name>
+        <style>/* The Modal (background) */&#13;
+			.modal {&#13;
+			display: none; /* Hidden by default */&#13;
+			position: fixed; /* Stay in place */&#13;
+			z-index: 1; /* Sit on top */&#13;
+			padding-top: 100px; /* Location of the box */&#13;
+			left: 0;&#13;
+			top: 0;&#13;
+			width: 100%; /* Full width */&#13;
+			height: 100%; /* Full height */&#13;
+			overflow: auto; /* Enable scroll if needed */&#13;
+			background-color: rgb(0,0,0); /* Fallback color */&#13;
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */&#13;
+			}&#13;
+&#13;
+			/* Modal Content */&#13;
+			.modal-content {&#13;
+			background-color: #fefefe;&#13;
+			margin: auto;&#13;
+			padding: 20px;&#13;
+			border: 1px solid #888;&#13;
+			width: 80%;&#13;
+			}&#13;
+&#13;
+			/* The Close Button */&#13;
+			.close {&#13;
+			color: #aaaaaa;&#13;
+			float: right;&#13;
+			font-size: 28px;&#13;
+			font-weight: bold;&#13;
+			}&#13;
+&#13;
+			.close:hover,&#13;
+			.close:focus {&#13;
+			color: #000;&#13;
+			text-decoration: none;&#13;
+			cursor: pointer;&#13;
+			}&#13;
+			&lt;!-- loader class --&gt;&#13;
+			.loader {&#13;
+			border: 5px solid #f3f3f3;&#13;
+			border-radius: 50%;&#13;
+			border-top: 5px solid #6e7275;&#13;
+			width: 30px;&#13;
+			height: 30px;&#13;
+			position: absolute;&#13;
+			right: 30px;&#13;
+			top: 5px;&#13;
+			-webkit-animation: spin 2s linear infinite;&#13;
+			animation: spin 2s linear infinite;&#13;
+			}&#13;
+&#13;
+			@-webkit-keyframes spin {&#13;
+			0% { -webkit-transform: rotate(0deg); }&#13;
+			100% { -webkit-transform: rotate(360deg); }&#13;
+			}&#13;
+&#13;
+			@keyframes spin {&#13;
+			0% { transform: rotate(0deg); }&#13;
+			100% { transform: rotate(360deg); }&#13;
+			}&#13;
+&#13;
+			&lt;!-- 	modal style	 --&gt;&#13;
+			/* The Modal (background) */&#13;
+			.modal {&#13;
+			display: none; /* Hidden by default */&#13;
+			position: fixed; /* Stay in place */&#13;
+			z-index: 1; /* Sit on top */&#13;
+			padding-top: 100px; /* Location of the box */&#13;
+			left: 0;&#13;
+			top: 0;&#13;
+			width: 100%; /* Full width */&#13;
+			height: 100%; /* Full height */&#13;
+			overflow: auto; /* Enable scroll if needed */&#13;
+			background-color: rgb(0,0,0); /* Fallback color */&#13;
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */&#13;
+			}&#13;
+&#13;
+			/* Modal Content */&#13;
+			.modal-content {&#13;
+			position: relative;&#13;
+			background-color: #fefefe;&#13;
+			margin: auto;&#13;
+			padding: 0;&#13;
+			border: 1px solid #888;&#13;
+			width: 80%;&#13;
+			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);&#13;
+			-webkit-animation-name: animatetop;&#13;
+			-webkit-animation-duration: 0.4s;&#13;
+			animation-name: animatetop;&#13;
+			animation-duration: 0.4s&#13;
+			}&#13;
+&#13;
+			/* Add Animation */&#13;
+			@-webkit-keyframes animatetop {&#13;
+			from {top:-300px; opacity:0} &#13;
+			to {top:0; opacity:1}&#13;
+			}&#13;
+&#13;
+			@keyframes animatetop {&#13;
+			from {top:-300px; opacity:0}&#13;
+			to {top:0; opacity:1}&#13;
+			}&#13;
+&#13;
+			/* The Close Button */&#13;
+			.close {&#13;
+			color: white;&#13;
+			float: right;&#13;
+			font-size: 28px;&#13;
+			font-weight: bold;&#13;
+			}&#13;
+&#13;
+			.close:hover,&#13;
+			.close:focus {&#13;
+			color: #000;&#13;
+			text-decoration: none;&#13;
+			cursor: pointer;&#13;
+			}&#13;
+&#13;
+&#13;
+&#13;
+&#13;
+.table-fixed{&#13;
+  width: 100%;&#13;
+  background-color: #f3f3f3;&#13;
+  tbody{&#13;
+    height:200px;&#13;
+    overflow-y:auto;&#13;
+    width: 100%;&#13;
+    }&#13;
+  thead,tbody,tr,td,th{&#13;
+    display:block;&#13;
+  }&#13;
+  tbody{&#13;
+    td{&#13;
+      float:left;&#13;
+    }&#13;
+  }&#13;
+  thead {&#13;
+    tr{&#13;
+      th{&#13;
+        float:left;&#13;
+       background-color: #f39c12;&#13;
+       border-color:#e67e22;&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-13 18:22:31</sys_created_on>
+        <sys_id>996ea58a4f34130095138df07310c7d9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>depNow_Style</sys_name>
+        <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
+        <sys_update_name>content_css_996ea58a4f34130095138df07310c7d9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-13 18:22:31</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

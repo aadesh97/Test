@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var getRunBook = '';
+var commitUS = '';
+var updateSetRecord = '';
+angular.module('depApp', [])
+	.controller('mainController', function($scope) {
+
+	$scope.sortType     = 'usName'; // set the default sort type
+	$scope.sortReverse  = false;
+	
+	getRunBook = this;
+	getRunBook.myFunc = function(jsonArr1){
+		$scope.$apply(function(){
+			$scope.updateSet = JSON.parse(jsonArr1).result;
+			updateSetRecord = $scope.updateSet;
+
+		});
+	};
+	commitUS = this;
+	commitUS.myFunction = function(jsonArr){
+		$scope.$apply(function(){
+			$scope.commitUpdateSet = jsonArr;
+		});
+	};
+
+	$scope.Sequencesort = function(){
+
+		$scope.sortType     = 'usSeq';
+		$scope.sortReverse  = false;  // set the default sort order
+	};
+
+	$scope.removeRow = function(name){
+		var index = -1;
+		var comArr = eval( $scope.updateSet );
+		for( var i = 0; i < comArr.length; i++ ) {
+			if( comArr[i].usName === name ) {
+				index = i;
+				break;
+			}
+		}
+		if( index === -1 ) {
+			alert( "Something gone wrong" );
+		}
+		$scope.updateSet.splice( index, 1 );
+		updateSetRecord = $scope.updateSet;
+	};
+});]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_189384_deploynow_depNow_landingPage.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+	<script type="text/javascript">
+		$j = jQuery.noConflict();
+	</script>
+	<g:include_script src="depNow_util.jsdbx"/>
+	<g:include_script src="depNow_getRunBook.jsdbx"/>
+	<g:include_script src="depNow_startDeployment.jsdbx"/>
+	<link type="text/css" rel="stylesheet" href="191377b3db041300a74f76efbf961974.cssdbx" />
+
+	<g:evaluate>
+		var options = [];
+		var gr =  new GlideRecord('sys_update_set_source');
+		gr.addActiveQuery();
+		gr.query( );
+		while (gr.next()) { 
+		options.push({
+		'name': gr.name+'',
+		'sys_id' : gr.sys_id+'',
+		'RemoteURL' : gr.url+''
+		});
+		}
+	</g:evaluate>
+
+	<title>Shashi Ranjan</title>
+
+	<style>
+
+		.skip{
+		background-color : yellow;
+		}
+		.previewed{
+		background-color :red;
+		}
+		.commited {
+		background-color : green;
+		}
+
+
+	</style>
+
+	<div id="modalAlert" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id = "modalTitle">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<p id = "modalText">Some text in the modal.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick = "closeModel()">Close</button>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="nav navbar-nav" style="margin-left: 30px;;"><h3 >DeployNow</h3></div>
+			</div>
+			<div class="navbar-header">
+				<div class="nav navbar-nav" style="margin-left: 10px;margin-top: 15PX;"><h4 >v1.9.2</h4></div>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid" ng-app="depApp" ng-controller="mainController" >
+
+		<!-- The Modal for angular JS -->
+		<div id="modalAlertAng" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id = "">Update Set</h4>
+				</div>
+				<div class="modal-body">
+					<!-- class="container" -->
+					<div >
+						<div class="alert alert-info">
+							Prepare RunBook..
+						</div>
+
+						<form>
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon"><i class="fa fa-search"></i></div>
+									<input type="text" class="form-control" placeholder="Search Update Set" ng-model="searchUS"></input>
+								</div>      
+							</div>
+						</form>
+						<table class="table table-bordered table-striped"> 
+							<thead>
+								<tr>
+									<td>
+										<a href="#" ng-click="sortType = 'usName'; sortReverse = !sortReverse">
+											UpdateSet Name 
+											<span ng-show="sortType == 'usName' &amp;&amp; !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+											<span ng-show="sortType == 'usName' &amp;&amp; sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+										</a>
+									</td>
+									<td>
+										<a href="#" ng-click="sortType = 'usCustCount'; sortReverse = !sortReverse">
+											Local Update
+											<span ng-show="sortType == 'usCustCount' &amp;&amp; !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+											<span ng-show="sortType == 'usCustCount' &amp;&amp; sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+										</a>
+									</td>
+									<td>
+										<a href="#" ng-click="sortType = 'usSeq'; sortReverse = !sortReverse">
+											Sequence 
+											<span ng-show="sortType == 'usSeq' &amp;&amp; !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+											<span ng-show="sortType == 'usSeq' &amp;&amp; sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+										</a>
+									</td>
+									<td>
+										Select
+									</td>
+									<td>
+										Sys ID
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="us in updateSet | orderBy:sortType:sortReverse | filter: searchUS">
+									<td>{{ us.usName }}</td>
+									<td>{{ us.usCustCount}}</td>
+									<!--  -->
+									<td><a href="#" ng-click = "seqNum = us.usSeq;showSequenceEdit = true" ng-show="!showSequenceEdit">{{ us.usSeq || 'empty' }}</a>
+										<div ng-show="showSequenceEdit">
+											<input type = 'number' ng-model="seqNum"></input>
+											<button ng-click="us.usSeq = seqNum;showSequenceEdit = false"><span class = "glyphicon glyphicon-ok"></span></button>
+											<button ng-click="showSequenceEdit = false"><span class = "glyphicon glyphicon-remove"></span></button>
+										</div></td>
+									<td><input type="button" value="Remove" class="btn btn-link" ng-click="removeRow(us.usName)"/>
+									</td>
+									<td>{{us.usSysID}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" ng-click="Sequencesort()" onclick = "closeModelAng2()">Cancel</button>
+							<button type="button" class="btn btn-primary" ng-click="Sequencesort()" onclick = "closeModelAng()">Lock Run-Book</button>
+						</div>
+					</div>
+				</div>					
+			</div>
+		</div>
+		<div class="row">
+			<form action="" id="formentry" class="form-horizontal" role="form">
+				<div class="container-fluid shadow">
+					<div class="row">
+
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div id="panel125" class="panel panel-default" data-role="panel">
+										<div class="panel-heading">Update Set Parameter</div>
+										<div class="panel-body">
+											<div class="form-group">
+												<label class="control-label-left" >Select Option</label>
+												<div class="controls">
+													<select id="selectOption" class="form-control" ng-change = "searchOption = option" ng-model = "option">
+														<option value="false">--Select--</option>
+														<option value="name_contain">Name is One Of</option>
+														<option value="date_range">Date Range</option>
+														<option value="excel_upload">Run-Book Upload</option>
+													</select>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12" ng-show = "option">
+													<div class="form-group">
+														<label class="control-label-left" >Remote Host</label>
+														<div class="controls">
+															<select id="selectRemote" class="form-control" data-role="select">
+																<option value="">--Select--</option>
+																<j:forEach items="${options}" var="jvar_option">  
+																	<g:evaluate jelly="true">  
+																		var name = jelly.jvar_option.name;  
+																		var value = jelly.jvar_option.RemoteURL;
+																		var sysID = jelly.jvar_option.sys_id;
+																	</g:evaluate>  
+																	<option value="${value}" >${name} :: ${sysID} </option>
+																</j:forEach>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12" ng-show = "searchOption == 'name_contain'">
+													<div class="form-group">
+														<label for="usr">Name:</label>
+														<!-- <input type="text" class="form-control" id="nameContain"></input> -->
+														<textarea class="form-control" rows="6" id="nameContain"></textarea>
+													</div>
+												</div>
+												<div class="col-md-12" ng-show = "searchOption == 'date_range'">
+													<div id="panel125" class="panel panel-default" data-role="panel">
+														<div class="panel-heading">Select Date Range</div>
+														<div class="panel-body">
+															<div class="col-md-12">
+																<!-- <label>Start Date:</label> <input id="dateRangePicker1" placeholder = "Start date " /> -->
+																<table class  = "table table-hover">
+																	<tr>
+																		<td><label>Start Date:</label></td>
+																		<td> <input id="dateRangePicker1" placeholder = "Start date " /></td>
+																		<td><label>End Date:</label></td>
+																		<td><input id="dateRangePicker" placeholder = "End date "/></td>
+																	</tr>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>	
+												<div class="col-md-12" ng-show = "searchOption == 'excel_upload'">
+													<button id="button6" type="button" class="btn btn-primary" style = "margin-right:5px" onclick="checkUpdateSetFromDatabase()">Upload Excel</button> 
+													<button id="button6" type="button" class="btn btn-primary" style = "margin-right:5px" onclick="checkUpdateSetFromDatabase()">Template</button> 
+												</div>	 
+												<div class="col-md-12" ng-show="option">
+													<div class="form-group group-inline pull-right">
+														<button id="retrieve" type="button" class="btn btn-primary btn-lg" style = "margin-right:5px" onclick="retrieveCompletedRemoteSets('${name}')">RetrieveUS</button> 
+														<button id="retrieveClicked" class = "btn btn-primary btn-lg disabled" style = "margin-right:5px; display:none" >Retrieving.. <i class="fa fa-circle-o-notch fa-spin"></i></button>
+														<button id="runbook" type="button" class="btn btn-primary btn-lg" style = "margin-right:5px" onclick="getUpdateSet()">PrepareRunbook </button> 
+														<button id="runbookClicked" class = "btn btn-primary btn-lg disabled" style = "margin-right:5px; display:none" >Fetching.. <i class="fa fa-circle-o-notch fa-spin"></i></button>
+														<button id="deploy" type="button" class="btn btn-primary btn-lg" onclick = "kisckOff()">StartDeployment</button> 
+														<button id="deployClicked" class = "btn btn-primary btn-lg disabled" style = "margin-right:5px; display:none" >Deploying.. <i class="fa fa-circle-o-notch fa-spin"></i></button>
+													</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div id="panel127" class="panel panel-default" data-role="panel">
+										<div class="panel-heading">Prepared Runbook</div>
+										<div class="panel-body">
+
+											<div class="col-md-12">
+												<a href="#" onclick="getDetailsUpdate();">UpdateSet Found .<span class="badge" id = 'usCount'>0</span></a>
+											</div>
+											<div class="col-md-12">
+												<div class="row">
+													<div class="panel-heading">
+														<h4>
+															Selected Update Set (Run-Book) 
+														</h4>
+													</div>
+
+													<table class="table table-fixed" style = "table-layout: fixed ; word-wrap: break-word" >
+														<thead>
+															<tr>
+																<th class="col-xs-2">#</th><th class="col-xs-8">Name</th><th class="col-xs-2"><a href="#" ng-click="sortType = 'usSeq'; sortReverse = !sortReverse">
+																#Seq 
+																<span ng-show="sortType == 'usSeq' &amp;&amp; !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+																<span ng-show="sortType == 'usSeq' &amp;&amp; sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+																</a></th>
+															</tr>
+														</thead>
+													</table>
+													<div style="overflow:scroll;overflow:auto;height:221px;width:100%; display:none" id = "selectedUS">
+														<table class="table table-fixed" style = "table-layout: fixed ; word-wrap: break-word" >
+															<tbody >
+																<tr ng-repeat = "record in updateSet | orderBy:sortType:sortReverse">
+																	<td class="col-xs-2">{{$index}}</td><td class="col-xs-8">{{record.usName}}</td><td class="col-xs-2">{{record.usSeq}}</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div id="panel126" class="panel panel-default" data-role="panel">
+										<div class="panel-heading">Report</div>
+										<div class="panel-body">
+											<div class="col-md-12">
+												<table class="table" style = "table-layout: fixed ;" id = "reportTable">
+													<thead>
+														<tr>
+															<th>#</th>
+															<th>Name</th>
+															<th>Status</th>
+															<th>Report</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat = "commitRecord in commitUpdateSet track by $index">
+															<td class="col-xs-2">{{$index}}</td>
+															<td class="col-xs-8" >{{commitRecord.name}}</td>
+															<td  class="col-xs-2" ng-class = "{skip : (commitRecord.result == 'Already Commited,skipped'),previewed : (commitRecord.result == 'previewed'),commited : (commitRecord.result == 'commited')}" >{{commitRecord.result}}</td>
+															<td class="col-xs-2"><a href = "{{commitRecord.report}}" target="_blank">Report</a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://protostrap.com/Assets/gv/css/gv.bootstrap-form.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.common-material.min.css" />
+	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.material.min.css" />
+
+	<script src="https://kendo.cdn.telerik.com/2018.1.221/js/kendo.all.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script> -->
+
+
+</j:jelly>]]></html>
+        <name>depNow_landingPage</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-13 18:12:10</sys_created_on>
+        <sys_id>e1eb6d0a4f34130095138df07310c7bc</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>depNow_landingPage</sys_name>
+        <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
+        <sys_update_name>sys_ui_page_e1eb6d0a4f34130095138df07310c7bc</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-13 18:53:38</sys_updated_on>
+    </sys_ui_page>
+</record_update>

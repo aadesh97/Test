@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>GET</http_method>
+        <name>Commit Record</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var sysID = request.queryString;
+	sysID = sysID.substring(12);
+	var responseJSON = {};
+	var remote_updateset = new GlideRecord('sys_remote_update_set');  
+	remote_updateset.addQuery('remote_sys_id',sysID);  
+	remote_updateset.query();  
+	remote_updateset.next();
+	if(remote_updateset.sys_id != '' && remote_updateset.sys_id != undefined) {
+		if(remote_updateset.state != "committed"){
+			// Mark as previed - see PreviewAjax...  
+			remote_updateset.state = "previewed";  
+			remote_updateset.update();  
+			// Let make sure the reply has some data 
+			responseJSON.name = remote_updateset.name;
+			responseJSON.result = 'previewed';  
+			responseJSON.report = remote_updateset.getLink();  
+			// Well we don't nee a worker  
+
+			var t = new UpdateSetPreviewer();  
+			// Lets make this rerun safe  
+			t.removePreviewRecords(remote_updateset.sys_id);  
+			t.generatePreviewRecords(remote_updateset.sys_id);  
+			// If all is fine commit  
+			try{
+				if(!GlidePreviewProblemHandler.hasUnresolvedProblems(remote_updateset.sys_id)) {  
+					var lus = new GlideRecord('sys_update_set');  
+					var worker = new GlideUpdateSetWorker();  
+					var lsysid = worker.remoteUpdateSetCommit(lus, remote_updateset, remote_updateset.update_source.url);  
+					var rsysid = remote_updateset.sys_id;  
+
+					// great success  
+					responseJSON.result = 'commited';  
+
+					// Copy XML - done by hand in the ScriptInclude so we copy this  
+					var xgr = new GlideRecord("sys_update_xml");  
+					xgr.addQuery("remote_update_set", remote_updateset.sys_id);  
+					xgr.query();  
+					while(xgr.next()) {  
+						var lxgr = new GlideRecord("sys_update_xml");  
+						lxgr.initialize();  
+						lxgr.name = xgr.name;  
+						lxgr.payload = xgr.payload;  
+						lxgr.action = xgr.action;  
+						lxgr.type = xgr.type;  
+						lxgr.target_name = xgr.target_name;  
+						lxgr.view = xgr.view;  
+						lxgr.update_domain = xgr.update_domain;  
+						lxgr.table = xgr.table;  
+						lxgr.category = xgr.category;  
+						lxgr.application = xgr.application;  
+						lxgr.update_set = lsysid;  
+						if (lxgr.isValidField('replace_on_upgrade'))  
+							lxgr.replace_on_upgrade = xgr.replace_on_upgrade;  
+						lxgr.insert();  
+					}  
+
+					remote_updateset.update();  
+					// Seems odd to send information back to the worker that it provided... but why not.  
+					worker.setUpdateSetSysId(lsysid);  
+					worker.setBackground(false);  
+					worker.start();  
+				}
+
+			} catch(e) {
+
+			}
+		} else {
+			responseJSON.result = "Already Commited,skipped";
+			responseJSON.name = remote_updateset.name;
+			responseJSON.report = remote_updateset.getLink();
+		}
+
+	} else {
+		responseJSON.result = "Not Retrieved";
+	}
+
+	return responseJSON;
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_189384_deploynow/depnow_commitapi/commit</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/commit</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-13 18:30:09</sys_created_on>
+        <sys_id>73ff29ca4f34130095138df07310c79f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Commit Record</sys_name>
+        <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
+        <sys_update_name>sys_ws_operation_73ff29ca4f34130095138df07310c79f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-13 18:30:09</sys_updated_on>
+        <web_service_definition display_value="depNow_commitAPI">a4ffe5ca4f34130095138df07310c7c0</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>
