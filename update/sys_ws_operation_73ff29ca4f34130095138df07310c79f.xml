@@ -22,20 +22,27 @@
 			remote_updateset.state = "previewed";  
 			remote_updateset.update();  
 			// Let make sure the reply has some data 
-			responseJSON.name = remote_updateset.name;
+			responseJSON.name = remote_updateset.name.getDisplayValue();
 			responseJSON.result = 'previewed';  
 			responseJSON.report = remote_updateset.getLink();  
 			// Well we don't nee a worker  
 
-			var t = new UpdateSetPreviewer();  
-			// Lets make this rerun safe  
+			var getUSPObj = new global.scopedUpdateSetPreviewer(); 
+            var t = getUSPObj.getObject();
+
+	      // Lets make this rerun safe  
 			t.removePreviewRecords(remote_updateset.sys_id);  
 			t.generatePreviewRecords(remote_updateset.sys_id);  
+
 			// If all is fine commit  
+			
 			try{
-				if(!GlidePreviewProblemHandler.hasUnresolvedProblems(remote_updateset.sys_id)) {  
+				var flag = getUSPObj.checkError(remote_updateset.sys_id);
+				gs.warn("test :"+flag,'checkT');
+				if(!flag) {  
 					var lus = new GlideRecord('sys_update_set');  
-					var worker = new GlideUpdateSetWorker();  
+					//var worker = new GlideUpdateSetWorker();  
+					var worker = getUSPObj.getWorkerObj();
 					var lsysid = worker.remoteUpdateSetCommit(lus, remote_updateset, remote_updateset.update_source.url);  
 					var rsysid = remote_updateset.sys_id;  
 
@@ -73,11 +80,11 @@
 				}
 
 			} catch(e) {
-
+               
 			}
 		} else {
 			responseJSON.result = "Already Commited,skipped";
-			responseJSON.name = remote_updateset.name;
+			responseJSON.name = remote_updateset.name.getDisplayValue();
 			responseJSON.report = remote_updateset.getLink();
 		}
 
@@ -85,7 +92,7 @@
 		responseJSON.result = "Not Retrieved";
 	}
 
-	return responseJSON;
+	return JSON.stringify(responseJSON);
 
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_189384_deploynow/depnow_commitapi/commit</operation_uri>
@@ -100,14 +107,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-03-13 18:30:09</sys_created_on>
         <sys_id>73ff29ca4f34130095138df07310c79f</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>36</sys_mod_count>
         <sys_name>Commit Record</sys_name>
         <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
         <sys_policy/>
         <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
         <sys_update_name>sys_ws_operation_73ff29ca4f34130095138df07310c79f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-03-13 18:30:09</sys_updated_on>
+        <sys_updated_on>2018-06-07 18:57:38</sys_updated_on>
         <web_service_definition display_value="depNow_commitAPI">a4ffe5ca4f34130095138df07310c7c0</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
