@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_189384_deploynow.scopedUpdateSetPreviewer</api_name>
+        <client_callable>false</client_callable>
+        <description>Please do insert and stay this script before using this application</description>
+        <name>scopedUpdateSetPreviewer</name>
+        <script><![CDATA[var scopedUpdateSetPreviewer = Class.create();scopedUpdateSetPreviewer.prototype = {getObject :  function(sysID){var usp = new UpdateSetPreviewer();return usp;},checkError : function(sysID){return GlidePreviewProblemHandler.hasUnresolvedProblems(sysID);},getWorkerObj : function(){var objW = new GlideUpdateSetWorker();return objW;	},type: 'scopedUpdateSetPreviewer'};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-06-26 13:39:04</sys_created_on>
+        <sys_id>37ebd1734ff21300ddbb8020a310c7d6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>scopedUpdateSetPreviewer</sys_name>
+        <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
+        <sys_update_name>sys_script_include_37ebd1734ff21300ddbb8020a310c7d6</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-06-26 13:39:04</sys_updated_on>
+    </sys_script_include>
+</record_update>
