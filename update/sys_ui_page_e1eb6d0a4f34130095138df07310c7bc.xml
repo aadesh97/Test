@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<record_update table="sys_ui_page">
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
     <sys_ui_page action="INSERT_OR_UPDATE">
         <category>general</category>
         <client_script><![CDATA[var getRunBook = '';
@@ -220,7 +219,7 @@ angular.module('depApp', [])
 									<div id="panel125" class="panel panel-default" data-role="panel">
 										<div class="panel-heading">Update Set Parameter</div>
 										<div class="panel-body">
-											<div class="form-group">
+											<div class="form-group" style = "padding: 0 34px;">
 												<label class="control-label-left" >Select Option</label>
 												<div class="controls">
 													<select id="selectOption" class="form-control" ng-change = "searchOption = option" ng-model = "option">
@@ -233,7 +232,7 @@ angular.module('depApp', [])
 											</div>
 											<div class="row">
 												<div class="col-md-12" ng-show = "option">
-													<div class="form-group">
+													<div class="form-group" style = "padding: 0 34px;">
 														<label class="control-label-left" >Remote Host</label>
 														<div class="controls">
 															<select id="selectRemote" class="form-control" data-role="select">
@@ -251,7 +250,7 @@ angular.module('depApp', [])
 													</div>
 												</div>
 												<div class="col-md-12" ng-show = "searchOption == 'name_contain'">
-													<div class="form-group">
+													<div class="form-group" style = "padding: 0 34px;">
 														<label for="usr">Name:</label>
 														<!-- <input type="text" class="form-control" id="nameContain"></input> -->
 														<textarea class="form-control" rows="6" id="nameContain"></textarea>
@@ -280,7 +279,7 @@ angular.module('depApp', [])
 													<button id="button6" type="button" class="btn btn-primary" style = "margin-right:5px" onclick="checkUpdateSetFromDatabase()">Template</button> 
 												</div>	 
 												<div class="col-md-12" ng-show="option">
-													<div class="form-group group-inline pull-right">
+													<div class="form-group group-inline pull-right" style = "padding: 0 34px;">
 														<button id="retrieve" type="button" class="btn btn-primary btn-lg" style = "margin-right:5px" onclick="retrieveCompletedRemoteSets('${name}')">RetrieveUS</button> 
 														<button id="retrieveClicked" class = "btn btn-primary btn-lg disabled" style = "margin-right:5px; display:none" >Retrieving.. <i class="fa fa-circle-o-notch fa-spin"></i></button>
 														<button id="runbook" type="button" class="btn btn-primary btn-lg" style = "margin-right:5px" onclick="getUpdateSet()">PrepareRunbook </button> 
@@ -381,7 +380,7 @@ angular.module('depApp', [])
 
 
 	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://protostrap.com/Assets/gv/css/gv.bootstrap-form.css" rel="stylesheet" type="text/css" />
+	<!-- <link href="https://protostrap.com/Assets/gv/css/gv.bootstrap-form.css" rel="stylesheet" type="text/css" /> -->
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.common-material.min.css" />
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.material.min.css" />
 
@@ -394,13 +393,13 @@ angular.module('depApp', [])
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-03-13 18:12:10</sys_created_on>
         <sys_id>e1eb6d0a4f34130095138df07310c7bc</sys_id>
-        <sys_mod_count>43</sys_mod_count>
+        <sys_mod_count>47</sys_mod_count>
         <sys_name>depNow_landingPage</sys_name>
         <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
         <sys_policy/>
         <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
         <sys_update_name>sys_ui_page_e1eb6d0a4f34130095138df07310c7bc</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-06-08 10:59:17</sys_updated_on>
+        <sys_updated_on>2018-11-14 07:53:39</sys_updated_on>
     </sys_ui_page>
 </record_update>
