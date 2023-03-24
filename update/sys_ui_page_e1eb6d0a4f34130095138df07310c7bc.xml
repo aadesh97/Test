@@ -54,9 +54,9 @@ angular.module('depApp', [])
 		$j('#modalAlert').show();
 	};
 });]]></client_script>
-        <description/>
+        <description>Test</description>
         <direct>false</direct>
-        <endpoint>x_189384_deploynow_depNow_landingPage.do</endpoint>
+        <endpoint>x_189384_deploynow_depNow_landingPage_.do</endpoint>
         <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
 
@@ -387,19 +387,19 @@ angular.module('depApp', [])
 	<script src="https://kendo.cdn.telerik.com/2018.1.221/js/kendo.all.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 </j:jelly>]]></html>
-        <name>depNow_landingPage</name>
+        <name>depNow_landingPage_</name>
         <processing_script/>
         <sys_class_name>sys_ui_page</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-03-13 18:12:10</sys_created_on>
         <sys_id>e1eb6d0a4f34130095138df07310c7bc</sys_id>
-        <sys_mod_count>47</sys_mod_count>
-        <sys_name>depNow_landingPage</sys_name>
+        <sys_mod_count>48</sys_mod_count>
+        <sys_name>depNow_landingPage_</sys_name>
         <sys_package display_value="deployNow" source="x_189384_deploynow">cb9b61864f34130095138df07310c764</sys_package>
         <sys_policy/>
         <sys_scope display_value="deployNow">cb9b61864f34130095138df07310c764</sys_scope>
         <sys_update_name>sys_ui_page_e1eb6d0a4f34130095138df07310c7bc</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-14 07:53:39</sys_updated_on>
+        <sys_updated_by>krishna</sys_updated_by>
+        <sys_updated_on>2023-03-24 05:54:01</sys_updated_on>
     </sys_ui_page>
 </record_update>
